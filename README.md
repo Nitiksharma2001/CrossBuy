@@ -1,5 +1,3 @@
-![image](https://github.com/Nitiksharma2001/Crossmeet/assets/82705199/3015c15d-68ab-44c8-89c1-625d375f459a)# CrossMeet
-
 ### Live Link 🔗
 [Live Link](https://crossmeet-43bea.web.app/ "Live Link")
 
