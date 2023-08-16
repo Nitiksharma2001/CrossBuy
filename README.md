@@ -1,70 +1,39 @@
-# Getting Started with Create React App
+![image](https://github.com/Nitiksharma2001/Crossmeet/assets/82705199/3015c15d-68ab-44c8-89c1-625d375f459a)# CrossMeet
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### Live Link 🔗
+[Live Link](https://crossmeet-43bea.web.app/ "Live Link")
 
-## Available Scripts
 
-In the project directory, you can run:
+##### GitHub Link
+[Link](https://github.com/Nitiksharma2001/Crossmeet "Link")
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### About the Project: 📚
+A Full Stack E-commerce Social Media Website.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Screenshots: 📷
+![image](https://github.com/Nitiksharma2001/Crossmeet/assets/82705199/139d2418-85d5-4093-99a3-9cff4cbd003d)
+![image](https://github.com/Nitiksharma2001/Crossmeet/assets/82705199/525615d8-6212-458e-8f35-a0ab63f3bf4f)
+![image](https://github.com/Nitiksharma2001/Crossmeet/assets/82705199/1eee8689-23d8-4fe3-9e26-c6aa64f4b8e6)
+![image](https://github.com/Nitiksharma2001/Crossmeet/assets/82705199/6db3affe-21fc-41f3-acbb-1360f920166a)
+![image](https://github.com/Nitiksharma2001/Crossmeet/assets/82705199/1df936ab-d229-4ae0-a1ea-43777914864e)
 
-### `npm test`
+### Technologies Used: ☕️ 🐍 ⚛️
+1. *Frontend*
+	1. React.Js : Fronend Framework
+	2. React-Redux : For State Managment
+	3. Material UI: CSS Framework 
+2.  *Backend*
+	1. FireBase Auth: For Authentication
+	2. Firebase Firestore: for Database
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Setup / Installation: 💻Setup / Installation: 💻
+- Clone the Repository.
+- Run `npm install` for installing all the dependicies
+- Run `npm start` which start the app in the development mode.
+	- Open http://localhost:3000 to view it in your browser.
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### Environment Variable
+- make account at https://console.firebase.google.com/ and create a project.
+- create a file name firebase.js and add all the config file details to that file.
