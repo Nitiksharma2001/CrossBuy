@@ -3,28 +3,22 @@ import { auth } from '../../firebase'
 
 export const postSilce = createSlice({
   name: 'post',
-  initialState: [],
+  initialState: {posts : null},
   reducers: {
     setPosts: (state, action) => {
-        state.push(action.payload)
-    },
-    emptyPosts: (state) => {
-      state.length = 0;
+      state.posts = action.payload
     },
     addTheComment: (state, action) => {
-      const postId = action.payload.id,
-        comment = action.payload.comment
-      state.forEach((post) => {
+      const postId = action.payload.id, comment = action.payload.comment
+      state.posts.forEach((post) => {
         if (post.id === postId) {
           post.comments.push(comment)
         }
       })
     },
     deleteTheComment: (state, action) => {
-      const postId = action.payload.id,
-        comment = action.payload.comment
-      console.log(postId, comment)
-      state.forEach((post) => {
+      const postId = action.payload.id, comment = action.payload.comment
+      state.posts.forEach((post) => {
         if (post.id === postId) {
           post.comments = post.comments.filter((commented) => commented !== comment)
         }
@@ -32,7 +26,7 @@ export const postSilce = createSlice({
     },
     likeThePost: (state, action) => {
       const postId = action.payload.id
-      state.forEach((post) => {
+      state.posts.forEach((post) => {
         if (post.id === postId) {
           post.likes.push(auth.currentUser.uid)
         }
@@ -40,7 +34,7 @@ export const postSilce = createSlice({
     },
     disLikeThePost: (state, action) => {
       const postId = action.payload.id
-      state.forEach((post) => {
+      state.posts.forEach((post) => {
         if (post.id === postId) {
           post.likes = post.likes.filter((like) => like !== auth.currentUser.uid)
         }

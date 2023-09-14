@@ -39,6 +39,7 @@ export default function ButtonAppBar() {
                   const auth = getAuth()
                   signOut(auth)
                     .then(() => {
+                      setUser(false)
                       navigate('/signin')
                     })
                     .catch((error) => {

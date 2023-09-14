@@ -64,14 +64,14 @@ export default function Post({ post }) {
     setComment('')
   }
   const likePost = async () => {
-    await documentUpdate({ likes: arrayUnion(auth.currentUser.uid) })
     dispatch(likeThePost({ id: id }))
     setLiked(true)
+    await documentUpdate({ likes: arrayUnion(auth.currentUser.uid) })
   }
   const disLikePost = async () => {
-    await documentUpdate({ likes: arrayRemove(auth.currentUser.uid) })
     dispatch(disLikeThePost({ id: id }))
     setLiked(false)
+    await documentUpdate({ likes: arrayRemove(auth.currentUser.uid) })
   }
   const deleteComment = async (commented) => {
     await documentUpdate({ comments: arrayRemove(commented) })
