@@ -18,9 +18,10 @@ export const postSilce = createSlice({
     },
     deleteTheComment: (state, action) => {
       const postId = action.payload.id, comment = action.payload.comment
+      console.log(postId, comment);
       state.posts.forEach((post) => {
         if (post.id === postId) {
-          post.comments = post.comments.filter((commented) => commented !== comment)
+          post.comments = post.comments.filter(commented => commented.id !== comment.id)
         }
       })
     },
@@ -43,7 +44,7 @@ export const postSilce = createSlice({
   },
 })
 
-export const {emptyPosts, likeThePost, disLikeThePost, addTheComment, deleteTheComment, setPosts } =
+export const {likeThePost, disLikeThePost, addTheComment, deleteTheComment, setPosts } =
   postSilce.actions
 
 export default postSilce.reducer

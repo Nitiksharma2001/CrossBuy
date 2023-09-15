@@ -11,21 +11,16 @@ import Avatar from '@mui/material/Avatar'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import { red } from '@mui/material/colors'
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteIcon from '@mui/icons-material/Delete'
 import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined'
 import AddIcon from '@mui/icons-material/Add'
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
 import { TextField } from '@mui/material'
 import { auth, db } from '../../firebase'
 import { arrayRemove, arrayUnion, doc, updateDoc } from 'firebase/firestore'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import {
-  likeThePost,
-  disLikeThePost,
-  addTheComment,
-  deleteTheComment,
-} from '../../Features/Post/postSlice'
+import { likeThePost, disLikeThePost, addTheComment, deleteTheComment } from '../../Features/Post/postSlice'
 import { onAuthStateChanged } from 'firebase/auth'
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props
@@ -48,7 +43,7 @@ export default function Post({ post }) {
     onAuthStateChanged(auth, (user) => {
       if (!user) {
         navigate('/signin')
-      } 
+      }
     })
   }, [])
   const handleExpandClick = () => {
@@ -59,31 +54,32 @@ export default function Post({ post }) {
     await updateDoc(postRef, updateQuery)
   }
   const addComment = async () => {
-    await documentUpdate({ comments: arrayUnion(comment) })
-    dispatch(addTheComment({ id, comment }))
+    const commentObj = {id: auth.currentUser.uid, value: comment};
+    await documentUpdate({ comments: arrayUnion(commentObj) })
+    dispatch(addTheComment({ id, comment: commentObj }))
     setComment('')
   }
   const likePost = async () => {
+    await documentUpdate({ likes: arrayUnion(auth.currentUser.uid) })
     dispatch(likeThePost({ id: id }))
     setLiked(true)
-    await documentUpdate({ likes: arrayUnion(auth.currentUser.uid) })
   }
   const disLikePost = async () => {
+    await documentUpdate({ likes: arrayRemove(auth.currentUser.uid) })
     dispatch(disLikeThePost({ id: id }))
     setLiked(false)
-    await documentUpdate({ likes: arrayRemove(auth.currentUser.uid) })
   }
   const deleteComment = async (commented) => {
     await documentUpdate({ comments: arrayRemove(commented) })
     dispatch(deleteTheComment({ id, comment: commented }))
   }
   return (
-    <Card sx={{ minWidth: 345 }}>
+    <Card sx={{ width: 345 }}>
       <CardHeader
         onClick={() => {
           navigate(`/profile/${post.user.id}`)
         }}
-        style={{ cursor: 'pointer' } }
+        style={{ cursor: 'pointer' }}
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label='recipe'>
             {post.user.name[0]}
@@ -95,7 +91,7 @@ export default function Post({ post }) {
       <Typography variant='body4' color='text.secondary'>
         {title}
       </Typography>
-      <CardMedia component='img' width='156'  image={imageurl} alt='Paella dish' />
+      <CardMedia component='img' sx={{ width: '345'}}  image={imageurl} alt='Paella dish' />
       <CardContent>
         <Typography variant='body3' color='text.first'>
           {description}
@@ -103,11 +99,7 @@ export default function Post({ post }) {
       </CardContent>
       <CardActions>
         <IconButton aria-label='add to favorites'>
-          {liked === false ? (
-            <FavoriteOutlinedIcon style={{ color: 'black' }} onClick={likePost} />
-        ) : (
-          <FavoriteOutlinedIcon style={{ color: 'red' }} onClick={disLikePost} />
-        )}
+          {liked === false ? <FavoriteOutlinedIcon style={{ color: 'black' }} onClick={likePost} /> : <FavoriteOutlinedIcon style={{ color: 'red' }} onClick={disLikePost} />}
           {likes.length}
         </IconButton>
         <ExpandMore onClick={handleExpandClick} aria-expanded={expanded} aria-label='show more'>
@@ -115,20 +107,21 @@ export default function Post({ post }) {
         </ExpandMore>
       </CardActions>
       <Collapse in={expanded} timeout='auto' unmountOnExit>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent:'space-between' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <TextField value={comment} onChange={(e) => setComment(e.target.value)} style={{ marginLeft: '15px' }} id='standard-helperText' placeholder='Add a comment' variant='standard' />
-          <AddCircleOutlineIcon onClick={addComment} style={{ cursor: 'pointer', marginRight:'10px' }} />
+          <AddCircleOutlineIcon onClick={addComment} style={{ cursor: 'pointer', marginRight: '10px' }} />
         </div>
         <CardContent>
           {comments.map((comment) => {
-            return <div style={{display:'flex', justifyContent:'space-between'}}>
-               <Typography paragraph>{comment} </Typography>
-               <DeleteIcon style={{cursor:'pointer'}} onClick={() => deleteComment(comment)}/>
-            </div>
+            return (
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <Typography paragraph>{comment.value} </Typography>
+                {comment.id === auth.currentUser.uid && <DeleteIcon style={{ cursor: 'pointer' }} onClick={() => deleteComment(comment)} />}
+              </div>
+            )
           })}
         </CardContent>
       </Collapse>
     </Card>
   )
 }
-

@@ -11,10 +11,11 @@ import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
-import { auth, db } from '../../firebase'
+import { auth, db, storage } from '../../firebase'
 import { useNavigate } from 'react-router-dom'
 import { collection, addDoc, Timestamp, doc, updateDoc, arrayUnion } from 'firebase/firestore'
 import { onAuthStateChanged } from 'firebase/auth'
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 
 const defaultTheme = createTheme()
 
@@ -30,20 +31,32 @@ export default function Postadd() {
   async function addPost(event) {
     const data = new FormData(event.currentTarget)
     event.preventDefault()
-    const postRef = await addDoc(collection(db, 'posts'), {
-      title: data.get('title'),
-      description: data.get('description'),
-      imageurl: data.get('imageurl'),
-      comments: [],
-      likes: [],
-      user: auth.currentUser.uid,
-      createdat: Timestamp.now(),
+    const storageRef = ref(storage, '/posts/' + data.get('file').name)
+    uploadBytes(storageRef, data.get('file')).then((snapshot) => {
+      console.log(snapshot.metadata.fullPath)
+      getDownloadURL(ref(storage, snapshot.metadata.fullPath))
+        .then(async (url) => {
+          const postRef = await addDoc(collection(db, 'posts'), {
+            title: data.get('title'),
+            description: data.get('description'),
+            imageurl: url,
+            comments: [],
+            likes: [],
+            user: auth.currentUser.uid,
+            createdat: Timestamp.now(),
+          })
+          const userRef = doc(db, 'users', auth.currentUser.uid)
+          await updateDoc(userRef, {
+            posts: arrayUnion(postRef.id)
+          })
+          navigate('/')
+        })
+        .catch((error) => {
+          console.log(error);
+        })
     })
-    const userRef = doc(db, 'users', auth.currentUser.uid)
-    await updateDoc(userRef, {
-      posts: arrayUnion(postRef.id)
-    })
-    navigate('/')
+
+    
   }
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -67,33 +80,9 @@ export default function Postadd() {
               mt: 1,
             }}
           >
-            <TextField
-              margin='normal'
-              required
-              fullWidth
-              id='title'
-              label='Title'
-              name='title'
-              autoFocus
-            />
-            <TextField
-              margin='normal'
-              required
-              fullWidth
-              name='description'
-              label='Description'
-              type='description'
-              id='description'
-              autoComplete='description'
-            />
-            <TextField
-              margin='normal'
-              required
-              fullWidth
-              id='imageurl'
-              label='Image URL'
-              name='imageurl'
-            />
+            <TextField margin='normal' required fullWidth id='title' label='Title' name='title' autoFocus />
+            <TextField margin='normal' required fullWidth name='description' label='Description' type='description' id='description' autoComplete='description' />
+            <TextField margin='normal' required fullWidth type='file' id='file' name='file' />
 
             <Button
               type='submit'
