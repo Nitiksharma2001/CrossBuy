@@ -20,7 +20,7 @@ import { auth, db } from '../../firebase'
 import { addDoc, arrayRemove, arrayUnion, collection, doc, getDoc, updateDoc } from 'firebase/firestore'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { likeThePost } from '../../Features/Post/postSlice'
+import { likeThePost } from '../../Features/postSlice'
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props

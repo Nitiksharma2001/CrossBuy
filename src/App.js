@@ -6,8 +6,8 @@ import '@fontsource/roboto/700.css'
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import Feed from './Components/Feed/Feed'
-import Signin from './Components/Auth/Signin'
-import Signup from './Components/Auth/Signup'
+import Signin from './Components/Auth//Signin/Signin'
+import Signup from './Components/Auth/Signup/Signup'
 import PostAdd from './Components/PostAdd/PostAdd'
 import Profile from './Components/Profile/Profile'
 import Card from './Components/Feed/Card'
