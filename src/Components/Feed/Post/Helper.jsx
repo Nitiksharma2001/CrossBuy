@@ -15,13 +15,6 @@ const Feed = ({ post, setPosts }) => {
   const [text, setText] = useState('')
   const [comments, setComments] = useState([])
 
-  const checkAuth = () => {
-    if(!user){
-      navigate('/signin')
-    }
-    return true;
-  }
-
   const [liked, setLiked] = useState('dislike')
   useEffect(() => {
     if(user){
@@ -41,10 +34,11 @@ const Feed = ({ post, setPosts }) => {
   })
   
   const likeDislikePost = async () => {
-    checkAuth()
+    if(!user){
+      return navigate('/signin')
+    }
 
     const val = liked === 'liked'
-    console.log(liked);
     const resp = await fetch(`${baseUrl}/post/${liked === 'liked' ? 'dislike' : 'like'}/${post._id}`, {
       method: 'PUT',
       headers: {
@@ -59,7 +53,9 @@ const Feed = ({ post, setPosts }) => {
   }
 
   const addComment = async (commentValue, postId) => {
-    checkAuth()
+    if(!user){
+      return navigate('/signin')
+    }
     if (text === '') {
       return
     }
@@ -73,16 +69,16 @@ const Feed = ({ post, setPosts }) => {
       body: JSON.stringify({ commentValue }),
     })
     const newComment = (await resp.json()).comment
-    console.log(newComment);
     setComments((prev) => [...prev, { ...newComment, user }])
   }
   const fetchComments = async (post) => {
     const comments = await axios.get(process.env.REACT_APP_SERVER + '/comment/'+post)
-    console.log(comments.data);
     setComments(comments.data)  
   }
   const deleteComment = async (commentId) => {
-    checkAuth()
+    if(!user){
+      return navigate('/signin')
+    }
     const resp = await fetch(`${baseUrl}/comment/${commentId}`, {
       method: 'DELETE',
       headers: {

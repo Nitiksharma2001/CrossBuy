@@ -19,7 +19,7 @@ export default function Post({ post }) {
       {/* <Link to={`/profile/${post.user._id}`}>
       <button>{post.user.name}</button>
       </Link> */}
-      <div>{post.title}</div>
+      <h3>{post.title}</h3>
         <img src={post.imageUrl} alt="" />
       <div>{post.description}</div>
       <div>
@@ -35,7 +35,9 @@ export default function Post({ post }) {
         <div>
           {
             comments.map((comment) => {
-              return <Comment text={text} comment={comment} deleteComment={deleteComment}/>
+              return <div key={comment._id}>
+                <Comment text={text} comment={comment} deleteComment={deleteComment}/>
+              </div>
             })
           }
         </div>

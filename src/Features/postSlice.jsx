@@ -23,7 +23,6 @@ export const postSilce = createSlice({
     },
     deleteTheComment: (state, action) => {
       const postId = action.payload.id, comment = action.payload.comment
-      console.log(postId, comment);
       state.posts.forEach((post) => {
         if (post.id === postId) {
           post.comments = post.comments.filter(commented => commented.id !== comment.id)
@@ -32,7 +31,6 @@ export const postSilce = createSlice({
     },
     incDecLike: (state, action) => {
       const postId = action.payload.id, val = action.payload.liked === 'liked' ? -1 : 1
-      console.log(postId, val);
       state.posts.forEach((post) => {
         if (post._id === postId) {
           post.noOfLikes += val

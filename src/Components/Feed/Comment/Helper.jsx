@@ -1,10 +1,12 @@
 import { useState } from "react"
 import { useSelector } from "react-redux"
+import { useNavigate } from "react-router-dom"
 
 const Helper = () => {
   const [replies, setReplies] = useState([])
   const baseUrl = process.env.REACT_APP_SERVER
   const user = useSelector(state => state.user.user)
+  const navigate = useNavigate()
   
   const fetchReplies = async (commentId) => {
     const data = await fetch(`${process.env.REACT_APP_SERVER}/reply/${commentId}`)
@@ -12,6 +14,9 @@ const Helper = () => {
     setReplies(replies)
   }
   const addReply = async (replyValue, commentId) => {
+    if(!user){
+      return navigate('/signin')
+    }
     if (replyValue === '') {
       return
     }
@@ -28,6 +33,9 @@ const Helper = () => {
     setReplies([...replies, reply])
   }
   const deleteReply = async (replyId) => {
+    if(!user){
+      return navigate('/signin')
+    }
     const resp = await fetch(`${baseUrl}/reply/${replyId}`, {
       method: 'DELETE',
       headers: {
@@ -41,6 +49,9 @@ const Helper = () => {
   }
 
   const updateReply = async (replyValue, replyId) => {
+    if(!user){
+      return navigate('/signin')
+    }
     if (replyValue === '') {
       return
     }
