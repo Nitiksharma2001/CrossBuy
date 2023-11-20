@@ -1,13 +1,15 @@
-import React, { useEffect } from 'react'
-import { auth } from '../../firebase'
-import { useNavigate } from 'react-router-dom'
-import { onAuthStateChanged } from 'firebase/auth'
-import PostAddUI from './PostAddUI'
+import Helper from './Helper'
 export default function Postadd() {
-  const navigate = useNavigate()
-  useEffect(() => {
-    
-  }, [])
-
-  return <PostAddUI />
+  const {data, changeVal, submitData} = Helper()
+  return <>
+    <div>
+      <div>
+        title <input type="text" name='title' value={data.title} onChange={changeVal}/>
+        description <input type="text" name='description' value={data.description} onChange={changeVal}/>
+        imageUrl <input type="text" name='imageUrl' value={data.imageUrl} onChange={changeVal}/>
+      </div>
+      <button onClick={submitData}>submit</button>
+    </div>
+  
+  </>
 }

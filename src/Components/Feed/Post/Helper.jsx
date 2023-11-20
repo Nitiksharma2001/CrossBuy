@@ -4,70 +4,83 @@ import { arrayRemove, arrayUnion, doc, updateDoc } from 'firebase/firestore'
 import { auth, db } from '../../../firebase'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import { likeThePost, disLikeThePost, addTheComment, deleteTheComment } from '../../../Features/postSlice'
+import { addTheComment, deleteTheComment, incDecLike } from '../../../Features/postSlice'
 
-const Feed = ({ post }) => {
+const Feed = ({ post, setPosts }) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const user = useSelector((state) => state.user.user)
+
+  const user = useSelector(state => state.user.user)
   const baseUrl = process.env.REACT_APP_SERVER
-  const [comment, setComment] = useState('')
+  const [text, setText] = useState('')
   const [comments, setComments] = useState([])
-  const [liked, setLiked] = useState(false)
-  const documentUpdate = async (updateQuery) => {
-    if (user === null) {
-      return navigate('/signin')
+
+  const checkAuth = () => {
+    if(!user){
+      navigate('/signin')
     }
-    const postRef = doc(db, 'posts', post.id)
-    await updateDoc(postRef, updateQuery)
+    return true;
   }
-  const replyUpdate = async (updateQuery) => {
-    if (user === null) {
-      return navigate('/signin')
+
+  const [liked, setLiked] = useState('dislike')
+  useEffect(() => {
+    if(user){
+      fetch(`${baseUrl}/post/liked/${post._id}`, {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `bearer ${user.token}`,
+        },
+      })
+      .then(resp => resp.json())
+      .then(data => {
+         setLiked(data.message)
+      })
     }
-    const postRef = doc(db, 'posts', post.id)
-    console.log(postRef.data())
+  })
+  
+  const likeDislikePost = async () => {
+    checkAuth()
+
+    const val = liked === 'liked'
+    console.log(liked);
+    const resp = await fetch(`${baseUrl}/post/${liked === 'liked' ? 'dislike' : 'like'}/${post._id}`, {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `bearer ${user.token}`,
+      },
+    })
+    const like = await resp.json()
+    dispatch(incDecLike({id: post._id, liked}))
+    setLiked(liked === 'liked' ? 'notliked' : 'liked')
   }
-  const addComment = async (commentValue, post) => {
-    if (user === null) {
-      return navigate('/signin')
-    }
-    if (comment === '') {
+
+  const addComment = async (commentValue, postId) => {
+    checkAuth()
+    if (text === '') {
       return
     }
-    const resp = await fetch(baseUrl + '/comment/addcomment', {
+    const resp = await fetch(`${baseUrl}/comment/${postId}`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
         Authorization: `bearer ${user.token}`,
       },
-      body: JSON.stringify({ commentValue, post }),
+      body: JSON.stringify({ commentValue }),
     })
     const newComment = (await resp.json()).comment
     setComments((prev) => [...prev, { ...newComment, user }])
   }
   const fetchComments = async (post) => {
-    const comments = await axios.get(process.env.REACT_APP_SERVER + '/comment/allcomments/'+post)
+    const comments = await axios.get(process.env.REACT_APP_SERVER + '/comment/'+post)
     setComments(comments.data)
   }
-  const likePost = async () => {
-    if (user === null) {
-      return navigate('/signin')
-    }
-    await documentUpdate({ likes: arrayUnion(auth.currentUser.uid) })
-    dispatch(likeThePost({ id: post.id }))
-    setLiked(true)
-  }
-  const disLikePost = async () => {
-    if (user === null) {
-      return navigate('/signin')
-    }
-    await documentUpdate({ likes: arrayRemove(auth.currentUser.uid) })
-    dispatch(disLikeThePost({ id: post.id }))
-    setLiked(false)
-  }
   const deleteComment = async (commentId) => {
+    checkAuth()
     const resp = await fetch(`${baseUrl}/comment/${commentId}`, {
       method: 'DELETE',
       headers: {
@@ -80,15 +93,13 @@ const Feed = ({ post }) => {
   }
   return {
     deleteComment,
-    disLikePost,
-    likePost,
-    replyUpdate,
-    comment,
+    text,
+    setText,
     comments,
-    setComment,
+    liked,
+    likeDislikePost, 
     addComment,
     fetchComments,
-    liked,
   }
 }
 

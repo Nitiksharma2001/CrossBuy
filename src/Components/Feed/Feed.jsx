@@ -4,27 +4,21 @@ import { setPosts } from '../../Features/postSlice'
 import axios from 'axios'
 import Post from './Post/Post'
 import './Feed.css'
-import { setUser } from '../../Features/userSlice'
 
 const Feed = () => {
   const posts = useSelector((state) => state.post.posts)
-  const user = useSelector((state) => state.user.user)
   const dispatch = useDispatch()
   useEffect(() => {
-    const localUser = JSON.parse(localStorage.getItem('user'))
-    if (!user && localUser) {
-      dispatch(setUser(localUser))
-    }
     const fetchData = async () => {
       try {
-        const posts = await axios.get(process.env.REACT_APP_SERVER + '/post/allposts')
+        const posts = await axios.get(process.env.REACT_APP_SERVER + '/post/')
         return dispatch(setPosts(posts.data))
       } catch (err) {
         console.log(err)
       }
     }
     fetchData()
-  }, [user])
+  }, [])
   return (
     <div className='feed'>
       {posts === null ? (
@@ -32,7 +26,7 @@ const Feed = () => {
       ) : (
         posts.map((post) => {
           return (
-            <div key={post.id}>
+            <div key={post._id}>
               <Post post={post} />
             </div>
           )

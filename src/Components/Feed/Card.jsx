@@ -20,7 +20,6 @@ import { auth, db } from '../../firebase'
 import { addDoc, arrayRemove, arrayUnion, collection, doc, getDoc, updateDoc } from 'firebase/firestore'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { likeThePost } from '../../Features/postSlice'
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props
@@ -65,12 +64,10 @@ export default function Post({ post }) {
         const docRef = doc(db, 'posts', id)
         if (!likeColor) {
           updateDoc(docRef, { likes: arrayUnion(user.uid) }).then(() => {
-            dispatch(likeThePost({ id, likeColor }))
             setLikeColor((prev) => !prev)
           })
         } else {
           updateDoc(docRef, { likes: arrayRemove(user.uid) }).then(() => {
-            dispatch(likeThePost({ id: id, likeColor: likeColor }))
             setLikeColor((prev) => !prev)
           })
         }

@@ -8,6 +8,11 @@ export const postSilce = createSlice({
     setPosts: (state, action) => {
       state.posts = action.payload
     },
+    addPost: (state, action) => {
+      const post = action.payload.post
+      state.posts.push(post)
+    },
+
     addTheComment: (state, action) => {
       const postId = action.payload.id, comment = action.payload.comment
       state.posts.forEach((post) => {
@@ -25,26 +30,18 @@ export const postSilce = createSlice({
         }
       })
     },
-    likeThePost: (state, action) => {
-      const postId = action.payload.id
+    incDecLike: (state, action) => {
+      const postId = action.payload.id, val = action.payload.liked === 'liked' ? -1 : 1
+      console.log(postId, val);
       state.posts.forEach((post) => {
-        if (post.id === postId) {
-          post.likes.push(auth.currentUser.uid)
-        }
-      })
-    },
-    disLikeThePost: (state, action) => {
-      const postId = action.payload.id
-      state.posts.forEach((post) => {
-        if (post.id === postId) {
-          post.likes = post.likes.filter((like) => like !== auth.currentUser.uid)
+        if (post._id === postId) {
+          post.noOfLikes += val
         }
       })
     },
   },
 })
 
-export const {likeThePost, disLikeThePost, addTheComment, deleteTheComment, setPosts } =
-  postSilce.actions
+export const {incDecLike, addTheComment, deleteTheComment, setPosts, addPost } = postSilce.actions
 
 export default postSilce.reducer

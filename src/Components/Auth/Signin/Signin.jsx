@@ -41,7 +41,7 @@ export default function Signin() {
     event.preventDefault()
     try {
       const user = await axios.post(
-        process.env.REACT_APP_SERVER + '/user/signin',
+        process.env.REACT_APP_SERVER + '/auth/signin',
         {
           email,
           password,

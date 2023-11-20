@@ -1,8 +1,20 @@
-import React, { useEffect, useState } from 'react'
-import { auth, db } from '../../firebase'
-import { doc, getDoc } from 'firebase/firestore'
-import ProfileUI from './ProfileUI'
-import { useParams } from 'react-router-dom'
+import { useSelector } from "react-redux"
+import Helper from "./Helper"
+
 export default function Post() {
-  return <>{<ProfileUI />}</>
+  const {userProfile} = Helper()
+  const user = useSelector(state => state.user.user)
+  return <>
+    {
+      userProfile && 
+      <div>
+        <div>
+          <h1>{userProfile.name}</h1>
+          <h2>{userProfile.email}</h2>
+          <div>{user._id === userProfile._id && <button>follow</button>} {userProfile.followers.length}</div>
+          <div>followings: {userProfile.followings.length}</div>
+        </div>
+      </div>
+  }
+  </>
 }
