@@ -1,6 +1,6 @@
 import './App.css'
 import Feed from './Components/Feed/Feed'
-import Signin from './Components/Auth//Signin/Signin'
+import Signin from './Components/Auth/Signin/Signin'
 import Signup from './Components/Auth/Signup/Signup'
 import PostAdd from './Components/PostAdd/PostAdd'
 import Profile from './Components/Profile/Profile'

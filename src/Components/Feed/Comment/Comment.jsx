@@ -10,23 +10,14 @@ const Comment = ({ text, comment, deleteComment }) => {
   const userId = comment.user._id
   
   const {fetchReplies, replies, addReply, updateReply, deleteReply} = Helper()
-  const btnCSS = {
-    backgroundColor:'white', 
-    border: '1px solid black', 
-    padding: '1px 4px', 
-    borderRadius: '3px',
-    fontSize: '13px',
-    fontWeight: 'bold',
-    marginRight: '2px'
-  }
   return (
     <div>
       <div style={{display:'flex', justifyContent:'space-between'}}>
         <div><b>{`@${name}: `}</b><span>{commentValue}</span></div>
         <div>
-          <button style={btnCSS} onClick={() => addReply(text, _id)}>Reply</button>
-          <button style={btnCSS} onClick={() => fetchReplies(_id)}>Replies</button>
-          <button style={btnCSS} onClick={() => deleteComment(_id)}>Delete</button>
+          <button className='btnCSS' onClick={() => addReply(text, _id)}>Reply</button>
+          <button className='btnCSS' onClick={() => fetchReplies(_id)}>Replies</button>
+          <button className='btnCSS' onClick={() => deleteComment(_id)}>Delete</button>
         </div>
       </div>
       {
@@ -38,8 +29,8 @@ const Comment = ({ text, comment, deleteComment }) => {
 
               </div>
               <div>
-              <button style={btnCSS} onClick={() => deleteReply(reply._id)}>Delete</button>
-              <button style={btnCSS} onClick={() => updateReply(text, reply._id)}>Update</button>
+              <button className='btnCSS' onClick={() => deleteReply(reply._id)}>Delete</button>
+              <button className='btnCSS' onClick={() => updateReply(text, reply._id)}>Update</button>
             </div>
             </div>
             )

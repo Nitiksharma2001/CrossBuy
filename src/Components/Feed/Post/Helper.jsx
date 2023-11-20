@@ -73,11 +73,13 @@ const Feed = ({ post, setPosts }) => {
       body: JSON.stringify({ commentValue }),
     })
     const newComment = (await resp.json()).comment
+    console.log(newComment);
     setComments((prev) => [...prev, { ...newComment, user }])
   }
   const fetchComments = async (post) => {
     const comments = await axios.get(process.env.REACT_APP_SERVER + '/comment/'+post)
-    setComments(comments.data)
+    console.log(comments.data);
+    setComments(comments.data)  
   }
   const deleteComment = async (commentId) => {
     checkAuth()

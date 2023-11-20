@@ -11,23 +11,23 @@ const Navbar = () => {
     <div className='navbar'>
       <div className='navbar-left'>
         <Link to='/'>
-          <button>home</button>
+          <button className='btnCSS'>Home</button>
         </Link>
       </div>
       {user !== null ? (
         <div className='navbar-right'>
           <Link to='/addpost'>
-            <button>add a post</button>
+            <button className='btnCSS'>Add A Post</button>
           </Link>
-          <button onClick={signout}>signout</button>
+          <button className='btnCSS' onClick={signout}>Signout</button>
         </div>
       ) : (
         <div className='navbar-right'>
           <Link to='/signin'>
-            <button>signin</button>
+            <button className='btnCSS'>Signin</button>
           </Link>
           <Link to='/signup'>
-            <button>signup</button>
+            <button className='btnCSS' >Signup</button>
           </Link>
         </div>
       )}

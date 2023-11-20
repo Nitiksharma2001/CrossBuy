@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import Helper from './Helper'
 import Comment from '../Comment/Comment'
-import { Link } from 'react-router-dom'
-
+import "./Post.css"
+// import { Link } from 'react-router-dom'
 
 export default function Post({ post }) {
   const {
@@ -15,21 +15,23 @@ export default function Post({ post }) {
     comments,
     fetchComments,
   } = Helper({ post })
-  return <div>
-      <Link to={`/profile/${post.user._id}`}>
+  return <>
+      {/* <Link to={`/profile/${post.user._id}`}>
       <button>{post.user.name}</button>
-      </Link>
+      </Link> */}
       <div>{post.title}</div>
-      <img src={post.imageUrl} alt="" />
+        <img src={post.imageUrl} alt="" />
       <div>{post.description}</div>
       <div>
-        <button onClick={likeDislikePost}>{liked === 'liked' ? 'dislike' : 'like'}</button>
+        <button className='btnCSS' onClick={likeDislikePost}>{liked === 'liked' ? 'dislike' : 'like'}</button>
         <span>{post.noOfLikes}</span>
+      </div >
+      <div style={{display:'flex', justifyContent:'space-between'}}>
+        <input type="text" value={text} onChange={e => setText(e.target.value)} />
+        <button className='btnCSS' onClick={() => addComment(text, post._id)}>add comment</button>
       </div>
-      <input type="text" value={text} onChange={e => setText(e.target.value)} />
-      <button onClick={() => addComment(text, post._id)}>add comment</button>
       <div>
-        <button onClick={() => fetchComments(post._id)}>fetch comments</button>
+        <button className='btnCSS' onClick={() => fetchComments(post._id)}>fetch comments</button>
         <div>
           {
             comments.map((comment) => {
@@ -38,5 +40,5 @@ export default function Post({ post }) {
           }
         </div>
       </div>
-  </div>
+  </>
 }
