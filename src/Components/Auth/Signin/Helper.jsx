@@ -36,7 +36,7 @@ const Helper = () => {
     })
     const res = await resp.json()
     if (res.message === 'user verified') {
-        console.log(res)
+      console.log(res)
       dispatch(setUser(res.user))
       localStorage.setItem('user', JSON.stringify(res.user))
       navigate('/')

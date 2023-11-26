@@ -23,7 +23,7 @@ export default function Post({ post }) {
         <img src={post.imageUrl} alt="" />
       <div>{post.description}</div>
       <div>
-        <button className='btnCSS' onClick={likeDislikePost}>{liked === 'liked' ? 'dislike' : 'like'}</button>
+        <button className='btnCSS' onClick={likeDislikePost}>{liked === 'liked' ? 'Dislike' : 'Like'}</button>
         <span>{post.noOfLikes}</span>
       </div >
       <div style={{display:'flex', justifyContent:'space-between'}}>
