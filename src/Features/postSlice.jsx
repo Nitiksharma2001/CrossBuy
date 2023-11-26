@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { auth } from '../firebase'
 
 export const postSilce = createSlice({
   name: 'post',

@@ -1,10 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { arrayRemove, arrayUnion, doc, updateDoc } from 'firebase/firestore'
-import { auth, db } from '../../../firebase'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import { addTheComment, deleteTheComment, incDecLike } from '../../../Features/postSlice'
+import { incDecLike } from '../../../Features/postSlice'
 
 const Feed = ({ post, setPosts }) => {
   const dispatch = useDispatch()
