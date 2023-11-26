@@ -1,72 +1,38 @@
-import React, { useEffect, useState } from 'react'
-import AppBar from '@mui/material/AppBar'
-import Box from '@mui/material/Box'
-import Toolbar from '@mui/material/Toolbar'
-import Typography from '@mui/material/Typography'
-import Button from '@mui/material/Button'
-import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth'
-import { auth } from '../../firebase'
-import { useNavigate } from 'react-router-dom'
+import React from 'react'
+import './Navbar.css'
+import Helper from './Helper'
+import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-export default function ButtonAppBar() {
-  const [user, setUser] = useState(false)
-  const navigate = useNavigate()
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setUser(true)
-      } else {
-        navigate('/signin')
-      }
-    })
-  }, [])
-  return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position='static'>
-        <Toolbar>
-          <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
-            <Link style={{color:'inherit', textDecoration:'none'}} to='/'>CrossMeet</Link>
-          </Typography>
 
-          {user ? (
-            <div>
-              <Button color='inherit'>
-                <Link style={{color:'inherit', textDecoration:'none'}}to='/addpost'>add a post</Link>
-              </Button>
-              <Button
-                color='inherit'
-                onClick={() => {
-                  const auth = getAuth()
-                  signOut(auth)
-                    .then(() => {
-                      setUser(false)
-                      navigate('/signin')
-                    })
-                    .catch((error) => {
-                      console.log(error)
-                    })
-                }}
-              >
-                {' '}
-                signout{' '}
-              </Button>
-            </div>
-          ) : (
-            <div>
-              <Button color='inherit'>
-                <Link style={{color:'inherit', textDecoration:'none'}} to='/signin'>
-                  signin
-                </Link>
-              </Button>
-              <Button color='inherit'>
-                <Link style={{color:'inherit', textDecoration:'none'}} to='/signup'>
-                  signup
-                </Link>
-              </Button>
-            </div>
-          )}
-        </Toolbar>
-      </AppBar>
-    </Box>
+const Navbar = () => {
+  const user = useSelector((state) => state.user.user)
+  const { signout } = Helper()
+  return (
+    <div className='navbar'>
+      <div className='navbar-left'>
+        <Link to='/'>
+          <button className='btnCSS'>Home</button>
+        </Link>
+      </div>
+      {user !== null ? (
+        <div className='navbar-right'>
+          <Link to='/addpost'>
+            <button className='btnCSS'>Add A Post</button>
+          </Link>
+          <button className='btnCSS' onClick={signout}>Signout</button>
+        </div>
+      ) : (
+        <div className='navbar-right'>
+          <Link to='/signin'>
+            <button className='btnCSS'>Signin</button>
+          </Link>
+          <Link to='/signup'>
+            <button className='btnCSS' >Signup</button>
+          </Link>
+        </div>
+      )}
+    </div>
   )
 }
+
+export default Navbar

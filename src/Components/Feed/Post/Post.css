@@ -1,0 +1,9 @@
+.post{
+    border: 2px solid black;
+    border-radius: 4px;
+    padding: 1px;
+    display: flex;
+    min-width: 300px;
+    flex-direction: column;
+    gap: 3px
+}
