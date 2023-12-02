@@ -1,18 +1,25 @@
 import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { setPosts } from '../../Features/postSlice'
-import axios from 'axios'
 import Post from './Post/Post'
 import './Feed.css'
 
 const Feed = () => {
   const posts = useSelector((state) => state.post.posts)
+  const baseUrl = process.env.REACT_APP_SERVER
   const dispatch = useDispatch()
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const posts = await axios.get(process.env.REACT_APP_SERVER + '/post/')
-        return dispatch(setPosts(posts.data))
+        const resp = await fetch(`${baseUrl}/post/`, {
+          method: 'GET',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+        })
+        const posts = await resp.json()
+        return dispatch(setPosts(posts))
       } catch (err) {
         console.log(err)
       }

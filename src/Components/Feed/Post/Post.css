@@ -3,7 +3,7 @@
     border-radius: 4px;
     padding: 1px;
     display: flex;
-    min-width: 300px;
+    width: 375px;
     flex-direction: column;
     gap: 3px
 }

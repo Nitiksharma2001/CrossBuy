@@ -35,6 +35,7 @@ const Helper = () => {
       }),
     })
     const res = await resp.json()
+    console.log(res);
     if (res.message === 'user verified') {
       console.log(res)
       dispatch(setUser(res.user))

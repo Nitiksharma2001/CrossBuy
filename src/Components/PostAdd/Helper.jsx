@@ -35,8 +35,9 @@ export default function Helper() {
       })
     })
     const res = await resp.json()
-    dispatch(addPost({post: res.post}))
-    navigate('/')
+    console.log(res);
+    // dispatch(addPost({post: res.post}))
+    // navigate('/')
   }
   return {data, changeVal, submitData}
 }

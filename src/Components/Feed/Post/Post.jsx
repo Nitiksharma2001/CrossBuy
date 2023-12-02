@@ -26,12 +26,12 @@ export default function Post({ post }) {
         <button className='btnCSS' onClick={likeDislikePost}>{liked === 'liked' ? 'Dislike' : 'Like'}</button>
         <span>{post.noOfLikes}</span>
       </div >
-      <div style={{display:'flex', justifyContent:'space-between'}}>
-        <input type="text" value={text} onChange={e => setText(e.target.value)} />
-        <button className='btnCSS' onClick={() => addComment(text, post._id)}>add comment</button>
+      <div style={{display:'flex', gap:'10px', justifyContent:'space-between'}}>
+        <textarea style={{flex:2}} value={text} onChange={e => setText(e.target.value)}/>
+        <button className='btnCSS' onClick={() => addComment(text, post._id)}>Add comment</button>
       </div>
       <div>
-        <button className='btnCSS' onClick={() => fetchComments(post._id)}>fetch comments</button>
+        <button className='btnCSS' onClick={() => fetchComments(post._id)}>Fetch Comments</button>
         <div>
           {
             comments.map((comment) => {

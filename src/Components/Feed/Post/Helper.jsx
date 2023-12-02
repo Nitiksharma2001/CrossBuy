@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
 import { incDecLike } from '../../../Features/postSlice'
 
 const Feed = ({ post, setPosts }) => {
@@ -70,8 +69,16 @@ const Feed = ({ post, setPosts }) => {
     setComments((prev) => [...prev, { ...newComment, user }])
   }
   const fetchComments = async (post) => {
-    const comments = await axios.get(process.env.REACT_APP_SERVER + '/comment/'+post)
-    setComments(comments.data)  
+    const resp = await fetch(`${baseUrl}/comment/${post}`, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        // Authorization: `bearer ${user.token}`,
+      },
+    })
+    const comments = await resp.json()
+    setComments(comments)  
   }
   const deleteComment = async (commentId) => {
     if(!user){
